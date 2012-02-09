@@ -8,20 +8,41 @@ print "-----------------------------"
 n = raw_input("Enter a number: ")
 n = int(n)
 
-print "1.", __
-
+if n%2 == 0:
+    print "1. ",n,"is even."
+else:
+    print "1. ",n,"is odd."
 
 # 2. If n is odd, double it
-print "2.", n
-
+if n%2 == 1:
+    print "2. ",2*n
+else:
+    print "2. ",n
 
 # 3. If n is evenly divisible by 3, add four
-print "3.", n
+if n%3 == 0:
+    print "3. ",n+4
+else:
+    print "3. ",n
 
 
 # 4. What is grade's letter value (eg. 90-100)
 grade = raw_input("Enter a grade [0-100]: ")
 grade = int(grade)
 
-print "4.", __
+if 90<= grade<=100:
+    print "4. A"
+elif 80<=grade<=89:
+    print "4. B"
+elif 75<=grade<=79:
+    print "4. C"
+elif 65<=grade<=74:
+    print "4. D"
+elif 0<=grade<=64:
+    print "4. F"
+
+
+
+
+
 

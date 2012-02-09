@@ -5,9 +5,13 @@ print "Section 2:  Loops"
 print "-----------------------------"
 
 # 1. Keep getting a number from the input (num) until it is a multiple of 3.
-num = 0
+num=raw_input("Count down from a mulitple of 3: ")
+num=int(num)
+while num%3 != 0:
+    num=raw_input("Count down from a multiple of 3: ")
+    num=int(num)
+print "1. ",num
 
-print "1.", num
 
 # 2. Countdown from the given number to 0 by threes. 
 #    Example:
@@ -16,8 +20,11 @@ print "1.", num
 #      6...
 #      3...
 #      0
+print "2. ",num
+while num > 0:
+    num-=3
+    print num
 
-print "2. Countdown from", num
 #CODE GOES HERE
 
 
