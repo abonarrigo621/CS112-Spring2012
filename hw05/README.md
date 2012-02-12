@@ -1,3 +1,4 @@
+
 Homework 5
 ===================
 Basic Software
@@ -32,6 +33,8 @@ Player 1 wins!!!
 
 ## rings.py
 Draw the olympic rings. See the example image bellow.
+
+I copied the old rings file and adjusted a new one because I was trying different techniques and I didn't want to lose the old copy I had in case I screwed up with the new one so I renamed it rings-2.py and trashed the other rings file so you wouldn't get confused as to what I was actually turning in.
 
 
 ----
