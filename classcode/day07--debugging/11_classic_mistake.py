@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+# If the following strings show up in any words such as "assignment" it replaces the string with the 'good' version of the word.
 swears = [
     ['ass', 'butt'],
     ['fuck', 'fudge'],
