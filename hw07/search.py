@@ -15,25 +15,25 @@ print "I have sorted your numbers"
 print N
 
 x = int(raw_input("Which number should I find: "))
-min = int(1)
-max = N[-1]
+min = 0
+max = len(N) - 1
 
 #Program finds x by reconstraining range until the midpoint equals x
 while max >= min:
 	mid = int((max + min) / 2)
 	print "midpoint =",mid
-	if x > mid:
+	if x > N[mid]:
 		min = mid + 1
 		print "Low"
 		print "new min =",min
-	elif x < mid:
+	elif x < N[mid]:
 		max = mid - 1
 		print "High"
 		print "new max =",max
-	elif x == mid:
-		print "Found",x,"at min =",min,"max=",max
+	elif x == N[mid]:
+		print "Found",x,"at",mid
 		break
-	if min >= max:	
+	elif min >= max:	
 		print "Could not find",x
 		break
 

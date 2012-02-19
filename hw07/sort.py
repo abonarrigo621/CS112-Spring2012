@@ -14,7 +14,7 @@ print "Before sort:"
 print nums
 
 #Sorts nums from least to greatest
-N=len(nums)-1
+N=len(nums)
 for x in range(N):
     p=int(x)
     for i in range(x+1, N):
