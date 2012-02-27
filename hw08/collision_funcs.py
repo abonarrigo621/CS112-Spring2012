@@ -7,6 +7,7 @@
 #       pt: list of 2 numbers (x,y)
 #       box: list of 4 numbers (x,y,w,h).  x,y is the top left point.  w,h is the width and height
 
+<<<<<<< HEAD
 def point_in_box(pt, box):
     a, b = pt
     x, y, w, h = box
@@ -18,4 +19,7 @@ def point_in_box(pt, box):
 
 
 
+=======
+# def point_in_box(pt, box):
+>>>>>>> 3205ce588d6ab68eff8ce1e79725079c03bbb0bd
 

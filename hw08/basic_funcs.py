@@ -11,10 +11,14 @@
 #   >>> greeter("WORLD")
 #   hello, world
 
+<<<<<<< HEAD
 def greeter(name):  
     name = str(name).lower()
     print "hello,",name
 
+=======
+# def greeter(name):
+>>>>>>> 3205ce588d6ab68eff8ce1e79725079c03bbb0bd
 
 
 # Draw a box
@@ -33,6 +37,7 @@ def greeter(name):
 #    | |
 #    +-+
 
+<<<<<<< HEAD
 def box(w,h):
     if w < 1 or h < 1 or type(w) != int or type(h) != int:
         print "Error: Invalid Dimensions"
@@ -53,4 +58,27 @@ def box(w,h):
     
 
 
+=======
+# def box(w,h):
+
+
+
+# ADVANCED
+# Draw a Festive Tree
+#    draw a festive tree based on the specifications.  You will need to discover the arguments 
+#    and behavior by running the unittests to see where it fails.  Return a string, do not print.
+#
+#  ex:
+#    >>> print tree()
+#        *
+#        ^
+#       ^-^
+#      ^-^-^
+#     ^-^-^-^
+#    ^-^-^-^-^
+#       | |
+#       | |
+
+# def tree()
+>>>>>>> 3205ce588d6ab68eff8ce1e79725079c03bbb0bd
 

@@ -9,6 +9,7 @@ import math
 #      >>> distance((0,0), (3,4))
 #      5
 
+<<<<<<< HEAD
 def distance(a,b):
     x1, y1 = a
     x2, y2 = b
@@ -16,6 +17,9 @@ def distance(a,b):
     return distance
 
 
+=======
+# def distance(a, b):
+>>>>>>> 3205ce588d6ab68eff8ce1e79725079c03bbb0bd
 
 
 # ADVANCED

@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 #!/usr/bin/env python
 
+=======
+>>>>>>> 3205ce588d6ab68eff8ce1e79725079c03bbb0bd
 import sys
 import unittest
 from StringIO import StringIO
