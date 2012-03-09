@@ -55,3 +55,27 @@
 #     >>> b = Point(1,2)
 #     >>> print a == b
 #     True
+
+import math
+
+class Point(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
+    def distance(self, other):
+        return math.sqrt((other.x - self.x)**2 + (other.y - self.y)**2)
+
+    def move(self, x, y):
+        self.x = x
+        self.y = y
+        return self.x, self.y
+
+    def translate(self, x, y):
+        self.x = self.x + x
+        self.y = self.y + y
+        return self.x, self.y
+
+        
+    
+    
