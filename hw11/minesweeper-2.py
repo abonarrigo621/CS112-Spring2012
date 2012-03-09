@@ -26,18 +26,12 @@ RED = (255,0,0)
 C_ACTIVE = (220,220,220)
 C_CLEARED = (160,160,160)
 C_BOMB = (255, 0 , 0)
-C_1 = (0,255,0)
-C_2 = (255,255,0)
-C_3 = (0,0,255)
-C_4 = (255,0,255)
-C_5 = (255,165,0)
-C_6 = (255,155,180)
-C_7 = (139,69,19)
-C_8 = (0,255,255)
+COLORS = [(0,255,0), (255,255,0), (0,0,255), (255,0,255), (255,165,0), (255,155,180), (139,69,19), (0,255,255)]
+YELLOW = (255, 255, 0)
 
 #font
 numberfont = pygame.font.Font(None, 40)
-winfont = pygame.font.Font(None, 80)
+gamefont = pygame.font.Font(None, 80)
 
 def empty_grid(width,height, value=0):
 	grid = []
@@ -59,9 +53,9 @@ def place_bombs(level, num_bombs, pos_bombs):
 		if level[y][x] == 0:
 			level[y][x] = -1
 			bombs += 1
-			pos_bombs.append(level[y][x])
+			pos_bombs.append((x,y))
 
-def bomb_at(level,x,y,width,height):
+def bomb_at(level,y,x,width,height):
 	if x < 0 or x >= width:
 		return 0
 	if y < 0 or y >= height:
@@ -72,8 +66,8 @@ def bomb_at(level,x,y,width,height):
 		return 0
 	
 def calc_counts(level):
-	width = len(level[0])
-	height = len(level[1])
+	width = len(level)
+	height = len(level[0])
 	for x in range(width):
 		for y in range(height):
 			if level[y][x] != -1:
@@ -86,26 +80,16 @@ def calc_counts(level):
 				level[y][x] += bomb_at(level, y+1, x-1, width, height)
 				level[y][x] += bomb_at(level, y+1, x, width, height)
 	return level[y][x]
-			
-
-def draw_numbers(screen, level, row, a, color):
-	for y,row in enumerate(level):
-		for x,a in enumerate(row):
-			text_a = numberfont.render(str(a), True, color)
-			screen.blit(text_a, (level[y][x]))
-			
-def draw_numbers2(screen, a, rects, row, color):
-	for y,row in enumerate(rects):
-		for x,a in enumerate(row):
-			for rect in rects:
-				text_a = numberfont.render(str(a), True, color)
-				loc_a = text_a.get_rect()
-				loc_a.center = rects[y][x].center
-				screen.blit(text_a, loc_a)
+						
+def draw_numbers2(screen, n, rect):
+	text = numberfont.render(str(n), True, COLORS[n-1])
+	loc = text.get_rect()
+	loc.center = rect.center
+	screen.blit(text, loc)
 
 def flagged_bomb(flag, bomb):
 	x,y = pos
-	for pos in pos_flag:
+	for pos in pos_Flag:
 		if pos in pos_bombs:
 			marked_bombs += 1
 
@@ -113,6 +97,7 @@ def flagged_bomb(flag, bomb):
 # Game
 def game(screen, width, height, num_bombs):
         #initialize
+	bounds = screen.get_rect()
 	Flag = 0
 	marked_bombs = 0
 	pos_Flag = []
@@ -121,7 +106,7 @@ def game(screen, width, height, num_bombs):
 	place_bombs(level, num_bombs, pos_bombs)
 	calc_counts(level)
 
-	cleared = empty_grid(width, height, True)
+	cleared = empty_grid(width, height, False)
 
 	rects = empty_grid(width, height)
 	for y, row in enumerate(rects):
@@ -131,7 +116,10 @@ def game(screen, width, height, num_bombs):
 	
         #game loop
 	done = False
+	playing = True
 	mouseclick = False
+	gameover = False
+	win = False
 	clear_square = False
 	clock = pygame.time.Clock()
 	
@@ -141,28 +129,28 @@ def game(screen, width, height, num_bombs):
 				done = True
 			elif event.type == KEYDOWN and event.key == K_ESCAPE:
 				done = True
-			elif event.type == MOUSEBUTTONDOWN and event.button == 1:
+			if event.type == MOUSEBUTTONDOWN and event.button == 1:
 				mouseclick = True
 				x,y = pygame.mouse.get_pos()
 				x /= TILE
 				y /= TILE
 				if (x, y) in pos_bombs:
-					cleared = True
-					done = True
-			elif event.type == MOUSEBUTTONUP and event.button == 1:
-				mouseclick = False
-				clear_square = True
-			elif event.type == MOUSEBUTTONDOWN and event.button == 2:
-				mouseclick = True
-				x,y = pygame.mouse.get_pos()
-				x /= TILE
-				y /= TILE
-				pygame.draw.rect(screen, WHITE, (x+25, y+5), 1, 40)
-				pygame.draw.rect(screen, RED, (x+26, y+5), 10,10)
-				pos_Flag.append([x,y])
-				Flag += 1
-			elif event.type == MOUSEBUTTONUP and event.button == 2:
-				mouseclick = False
+					gameover = True
+					 
+				elif event.type == MOUSEBUTTONUP and event.button == 1:
+					mouseclick = False
+					clear_square = True
+				elif event.type == MOUSEBUTTONDOWN and event.button == 2:
+					mouseclick = True
+					x,y = pygame.mouse.get_pos()
+					x /= TILE
+					y /= TILE
+					pygame.draw.rect(screen, WHITE, (x+25, y+5), 1, 40)
+					pygame.draw.rect(screen, RED, (x+26, y+5), 10,10)
+					pos_Flag.append([x,y])
+					Flag += 1
+				elif event.type == MOUSEBUTTONUP and event.button == 2:
+					mouseclick = False
 
 			
 		#update
@@ -174,11 +162,11 @@ def game(screen, width, height, num_bombs):
 			cleared[y][x] = True
 			clear_square = False
 		
-		if marked_bombs == 10:
-			win_text = winfont.render("You Win!", True, WHITE)
-			loc = text.get_rect()
-			loc.center = bounds.center
-			done = True
+			if marked_bombs == 10:
+				win = True
+		
+			
+			
 			
 		
 		
@@ -209,38 +197,24 @@ def game(screen, width, height, num_bombs):
 				if cleared[y][x]:
 					if level[y][x] == -1:
 						pygame.draw.ellipse(screen, C_BOMB, rect.inflate(-BORDER, -BORDER))
-					elif level[y][x] == 1:
-						draw_numbers2(screen,"1", rects, row, C_1)
-					elif level[y][x] == 2:
-						draw_numbers2(screen, 2, rects, row, C_2)
-					elif level[y][x] == 3:
-						draw_numbers2(screen, 3, rects, row, C_3)
-					elif level[y][x] == 4:
-						draw_numbers2(screen, 4, rects, row, C_4)
-					elif level[y][x] == 5:
-						draw_numbers2(screen, 5, rects, row, C_5)
-					elif level[y][x] == 6:
-						draw_numbers2(screen, 6, rects, row, C_6)
-					elif level[y][x] == 7:
-						draw_numbers2(screen, 7, rects, row, C_7)
-					elif level[y][x] == 8:
-						draw_numbers2(screen, 8, rects, row, C_8)
-					'''elif level[y][x] == 1:
-						draw_numbers(screen, level, row, 1, C_1)
-					elif level[y][x] == 2:
-						draw_numbers(screen, level, row, 2, C_2)
-					elif level[y][x] == 3:
-						draw_numbers(screen, level, row, 3, C_3)
-					elif level[y][x] == 4:
-						draw_numbers(screen, level, row, 4, C_4)
-					elif level[y][x] == 5:
-						draw_numbers(screen, level, row, 5, C_5)
-					elif level[y][x] == 6:
-						draw_numbers(screen, level, row, 6, C_6)
-					elif level[y][x] == 7:
-						draw_numbers(screen, level, row, 7, C_7)
-					elif level[y][x] == 8:
-						draw_numbers(screen, level, row, 8, C_8)'''
+					elif level[y][x] > 0:
+						draw_numbers2(screen, level[y][x], rect)
+		if gameover:
+			lose_text= gamefont.render("GAME OVER", True, YELLOW)
+			loc_lose = lose_text.get_rect()
+			loc_lose.center = bounds.center
+			screen.blit(lose_text, loc_lose)
+			playing = False
+		if win:
+			win_text = gamefont.render("You Win!", True, WHITE)
+			loc_win = win_text.get_rect()
+			loc_win.center = bounds.center
+			screen.blit(win_text, loc_win)
+			playing = False
+					
+				
+					
+					
 						
 
 				
@@ -254,7 +228,6 @@ def game(screen, width, height, num_bombs):
 def main():
 	pygame.init()
 	screen = pygame.display.set_mode(SCREEN_SIZE)
-	bounds = screen.get_rect()
 	game(screen, WIDTH, HEIGHT, NUM_BOMBS)
 
 main()
